@@ -1,0 +1,37 @@
+name = "vigil"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+not_found_handling = "404-page"
+# Only these paths wake the Worker. Pages, scripts and icons are served as free static assets,
+# so they do not use up the 100,000 requests/day limit.
+run_worker_first = ["/api/*", "/internal/*", "/unsub"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "vigil-db"
+database_id = "75ab0140-db7f-460a-b5a8-d3af5545fb60"
+
+[vars]
+VAPID_SUBJECT = "mailto:vigilhelpcenter@gmail.com"
+VAPID_PUBLIC = "BDmZ0iiMUlV37ebZ5sBcUMqhj_GXZTSSiKqZPuo3K5VBaeIC4d3UozryLHELARdSW925WNazLkJiefPmRRStWs4"
+
+# Your own account name in the app. Vigil sends you a notification when the checker goes silent or the GitHub token expires (DEPLOY.md, Part G).
+# ADMIN_USER = "your-account-name"
+
+# Optional extras (see DEPLOY.md, part E). Remove the leading # to use one:
+# GH_REPO = "your-github-name/vigil-checker"     # codes arrive in about a minute
+# MAIL_DAILY_LIMIT = "450"                       # per Gmail account x number of accounts
+# MAIL_CODES_PER_DAY = "300"
+# SEARCH_DAILY_LIMIT = "30"
+
+# Cloudflare's own clock (free). With GH_REPO + GH_TOKEN set it starts the checker on time and
+# switches it back on if GitHub paused it. Without them it does nothing.
+[triggers]
+crons = ["*/30 * * * *"]
+
+[observability]
+enabled = true

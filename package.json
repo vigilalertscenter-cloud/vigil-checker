@@ -1,0 +1,12 @@
+{
+  "name": "vigil-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predeploy": "node check-config.mjs",
+    "deploy": "wrangler deploy",
+    "db:init": "wrangler d1 execute vigil-db --remote --file=schema.sql",
+    "db:backup": "wrangler d1 export vigil-db --remote --output=../vigil-backup.sql"
+  },
+  "devDependencies": { "wrangler": "^4.0.0" }
+}
